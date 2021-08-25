@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">Mobile Laundry Management System (Admin)</string>
+    <string name="app_name">MLMS Admin</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_history">History</string>
+    <string name="title_listofemployee">List of Employee</string>
+    <string name="listofEmployee_btn">List of Employee</string>
+    <string name="history_btn">History</string>
+    <string name="NewEmployee_btn">Add new employee</string>
+    <string name="NewEmployee_form">Create new employee</string>
+    <string name="back_btn_description">Back</string>
 </resources>

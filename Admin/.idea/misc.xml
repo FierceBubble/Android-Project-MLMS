@@ -3,7 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.2921875" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.2921875" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2921875" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/activity_new_employee.xml" value="0.33" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/fragment_dashboard.xml" value="0.2760416666666667" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/fragment_employeelist.xml" value="0.1" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/fragment_history.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/layout/fragment_notifications.xml" value="0.2760416666666667" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3104166666666667" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.25" />
+        <entry key="..\:/Users/Fierce Bubble/Desktop/Personal-Projects/AndroidProjects/MLMS/Admin/app/src/main/res/xml/my_backup_rule.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mlms.mobilelaundrymanagementsystemadmin.ui.home.HomeFragment">
+    tools:context="com.mlms.mobilelaundrymanagementsystemadmin.ui.history.HistoryFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/RefreshHomePage"
+        android:id="@+id/RefreshHistoryPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listOfActive"
+            android:id="@+id/listOfAll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
