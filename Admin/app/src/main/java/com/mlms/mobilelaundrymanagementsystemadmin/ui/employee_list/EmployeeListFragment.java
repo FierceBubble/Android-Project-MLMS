@@ -19,6 +19,7 @@ import com.mlms.mobilelaundrymanagementsystemadmin.databinding.FragmentEmployeel
 
 public class EmployeeListFragment extends Fragment {
 
+    private static final String TAG ="EmployeeListFragment";
     private FragmentEmployeelistBinding binding;
     RecyclerView listOfEmployee_Rec;
     SwipeRefreshLayout pullToRefresh;
@@ -35,7 +36,7 @@ public class EmployeeListFragment extends Fragment {
         pullToRefresh=root.findViewById(R.id.RefreshEmployeePage);
         pullToRefresh.setOnRefreshListener(() -> {
             pullToRefresh.setRefreshing(false);
-            Log.d("EmployeeListFragment","Fragment refreshed!");
+            Log.i(TAG,"onRefresh");
         });
 
         addNewEmployee=root.findViewById(R.id.NewEmployee_btn);
@@ -44,38 +45,38 @@ public class EmployeeListFragment extends Fragment {
             startActivity(intent);
         });
 
-        Log.d("EmployeeListFragment","Fragment created!");
+        Log.i(TAG,"onCreate");
         return root;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("EmployeeListFragment","Fragment started!");
+        Log.i(TAG,"onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("EmployeeListFragment","Fragment stopped!");
+        Log.i(TAG,"onStop");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("EmployeeListFragment","Fragment paused!");
+        Log.i(TAG,"onPause");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("EmployeeListFragment","Fragment resumed!");
+        Log.i(TAG,"onResume");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        Log.d("EmployeeListFragment","Fragment destroyed!");
+        Log.i(TAG,"onDestroy");
     }
 }

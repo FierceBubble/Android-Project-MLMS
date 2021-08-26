@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 public class NewEmployeeActivity extends AppCompatActivity {
 
+    private static final String TAG ="NewEmployeeActivity";
     ImageButton back_btn;
 
     @Override
@@ -21,35 +22,37 @@ public class NewEmployeeActivity extends AppCompatActivity {
             finish();
             Log.d("Back button","Back button clicked!, returned to mainActivity");
         });
+
+        Log.i(TAG,"onCreate");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("NewEmployeeActivity","Activity started!");
+        Log.i(TAG,"onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("NewEmployeeActivity","Activity stopped!");
+        Log.i(TAG,"onStop");
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
-        Log.d("NewEmployeeActivity","Activity paused!");
+        Log.i(TAG,"onPause");
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        Log.d("NewEmployeeActivity","Activity resumed!");
+        Log.i(TAG,"onResume");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("NewEmployeeActivity","Activity destroyed!");
+        Log.i(TAG,"onDestroy");
     }
 }

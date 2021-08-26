@@ -7,5 +7,14 @@
     <string name="history_btn">History</string>
     <string name="NewEmployee_btn">Add new employee</string>
     <string name="NewEmployee_form">Create new employee</string>
+    <string name="login_form">Login</string>
     <string name="back_btn_description">Back</string>
+
+    <!-- Strings for Login form -->
+    <string name="app_logo">logo</string>
+    <string name="email_label">Email:</string>
+    <string name="email_input_placeholder">Enter your email</string>
+    <string name="password_label">Password:</string>
+    <string name="password_input_placeholder">Enter your password</string>
+    <string name="login_btn">Login</string>
 </resources>

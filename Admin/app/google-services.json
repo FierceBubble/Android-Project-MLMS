@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "797323757771",
-    "project_id": "mobile-laundry-management-sys",
-    "storage_bucket": "mobile-laundry-management-sys.appspot.com"
+    "project_number": "579116013995",
+    "firebase_url": "https://mobile-laundry-managemen-69a10-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mobile-laundry-managemen-69a10",
+    "storage_bucket": "mobile-laundry-managemen-69a10.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:797323757771:android:17f2cdaa91eabf02b5b34e",
+        "mobilesdk_app_id": "1:579116013995:android:5aa26ac66119ef7af39aee",
         "android_client_info": {
           "package_name": "com.mlms.mobilelaundrymanagementsystemadmin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "797323757771-dsr1abcudc9tfu4786asd96n1ji87vbk.apps.googleusercontent.com",
+          "client_id": "579116013995-epfemivekq08v92cpus9b7smd06vd3c2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDgray12ZMUDXmwXHHV7GaRuXSN6S0CdVM"
+          "current_key": "AIzaSyBZYeU-n73kEQGfne_jFqd7ya7rCnZ11Wk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "797323757771-dsr1abcudc9tfu4786asd96n1ji87vbk.apps.googleusercontent.com",
+              "client_id": "579116013995-epfemivekq08v92cpus9b7smd06vd3c2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

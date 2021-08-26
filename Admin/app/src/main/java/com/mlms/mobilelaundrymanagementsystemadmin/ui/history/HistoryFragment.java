@@ -15,6 +15,7 @@ import com.mlms.mobilelaundrymanagementsystemadmin.databinding.FragmentHistoryBi
 
 public class HistoryFragment extends Fragment {
 
+    private static final String TAG ="HistoryFragment";
     private FragmentHistoryBinding binding;
     SwipeRefreshLayout pullToRefresh;
 
@@ -27,10 +28,10 @@ public class HistoryFragment extends Fragment {
         pullToRefresh=root.findViewById(R.id.RefreshHistoryPage);
         pullToRefresh.setOnRefreshListener(() -> {
             pullToRefresh.setRefreshing(false);
-            Log.d("HistoryFragment","Fragment refreshed!");
+            Log.i(TAG,"onRefresh");
         });
 
-        Log.d("HistoryFragment","Fragment created!");
+        Log.i(TAG,"onCreate");
 
         return root;
     }
@@ -38,31 +39,32 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("HistoryFragment","Fragment started!");
+        Log.i(TAG,"onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("HistoryFragment","Fragment stopped!");
+        Log.i(TAG,"onStop");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("HistoryFragment","Fragment paused!");
+        Log.i(TAG,"onPause");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("HistoryFragment","Fragment resumed!");
+        Log.i(TAG,"onResume");
     }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        Log.d("HistoryFragment","Fragment destroyed!");
+        Log.i(TAG,"onDestroy");
     }
 }

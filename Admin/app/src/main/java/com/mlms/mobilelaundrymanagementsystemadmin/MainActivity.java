@@ -3,6 +3,7 @@ package com.mlms.mobilelaundrymanagementsystemadmin;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 // import androidx.navigation.Navigation;
@@ -11,11 +12,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mlms.mobilelaundrymanagementsystemadmin.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG ="MainActivity";
     FirebaseAuth auth;
+    FirebaseDatabase database;
+    FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         auth=FirebaseAuth.getInstance();
-        authenticate();
+        database=FirebaseDatabase.getInstance();
+        firestore=FirebaseFirestore.getInstance();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -44,54 +51,40 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        Log.d("MainActivity","Activity created!");
+        Log.i(TAG,"onCreate");
     }
 
-    public void authenticate(){
-        String userName="admin@adminemail.com";
-        String Password="admin123";
-        //Sign In User
-        auth.signInWithEmailAndPassword(userName,Password)
-                .addOnCompleteListener(task -> {
 
-                    if(task.isSuccessful()){
-
-                        Log.d("Authenticate","Success");
-                    }else{
-                        Log.d("Authenticate","Failed");
-                    }
-
-                });
-    }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("MainActivity","Activity started!");
+        Log.i(TAG,"onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("MainActivity","Activity stopped!");
+        Log.i(TAG,"onStop");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("MainActivity","Activity paused!");
+        Log.i(TAG,"onPause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("MainActivity","Activity resumed!");
+        Log.i(TAG,"onResume");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("MainActivity","Activity destroyed!");
+        Log.i(TAG,"onDestroy");
+        auth.signOut();
     }
 
 }

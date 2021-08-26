@@ -15,7 +15,7 @@ import com.mlms.mobilelaundrymanagementsystemadmin.databinding.FragmentHomeBindi
 
 public class HomeFragment extends Fragment {
 
-
+    private static final String TAG ="HomeFragment";
     private FragmentHomeBinding binding;
     SwipeRefreshLayout pullToRefresh;
 
@@ -28,10 +28,10 @@ public class HomeFragment extends Fragment {
         pullToRefresh=root.findViewById(R.id.RefreshHomePage);
         pullToRefresh.setOnRefreshListener(() -> {
             pullToRefresh.setRefreshing(false);
-            Log.d("HomeFragment","Fragment refreshed!");
+            Log.i(TAG,"onRefresh");
         });
 
-        Log.d("HomeFragment","Fragment created!");
+        Log.i(TAG,"onCreate");
 
         return root;
     }
@@ -39,31 +39,31 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("HomeFragment","Fragment started!");
+        Log.i(TAG,"onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("HomeFragment","Fragment stopped!");
+        Log.i(TAG,"onStop");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("HomeFragment","Fragment paused!");
+        Log.i(TAG,"onPause");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("HomeFragment","Fragment resumed!");
+        Log.i(TAG,"onResume");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        Log.d("HomeFragment","Fragment destroyed!");
+        Log.i(TAG,"onDestroy");
     }
 }
