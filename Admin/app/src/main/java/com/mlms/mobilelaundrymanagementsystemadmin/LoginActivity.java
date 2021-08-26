@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                         assert adminNemployeeModel != null;
 
                         role=adminNemployeeModel.getRole();
-                        Log.i("Role", role);
+                        Log.w("Role", role);
 
                         if(role.equals("admin")){
 
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         }else if(role.equals("employee")){
 
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            Toast.makeText(LoginActivity.this,"Employee logged in!",Toast.LENGTH_SHORT).show();
 
                         }
                     }

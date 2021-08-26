@@ -60,7 +60,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     //Create PDF
-    //implementation 'com.itextpdf:itext7-core:7.1.3'
+    implementation 'com.itextpdf:itext7-core:7.1.9'
 
     //Open PDF
     //implementation 'com.github.barteksc:android-pdf-viewer:3.0.0'

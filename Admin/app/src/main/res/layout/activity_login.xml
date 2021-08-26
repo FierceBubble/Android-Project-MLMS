@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <Button
-        android:id="@+id/login_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="50dp"
-        android:text="@string/login_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_input" />
-
     <TextView
         android:id="@+id/email_label"
         android:layout_width="wrap_content"
@@ -38,6 +28,20 @@
         app:layout_constraintTop_toBottomOf="@+id/email_input" />
 
     <EditText
+        android:id="@+id/email_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:autofillHints="@string/email_input_placeholder"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/password_input"
+        app:layout_constraintStart_toStartOf="@+id/email_label"
+        app:layout_constraintTop_toBottomOf="@+id/email_label"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <EditText
         android:id="@+id/password_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,19 +55,15 @@
         app:layout_constraintTop_toBottomOf="@+id/password_label"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
-    <EditText
-        android:id="@+id/email_input"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:autofillHints="@string/email_input_placeholder"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/password_input"
-        app:layout_constraintStart_toStartOf="@+id/email_label"
-        app:layout_constraintTop_toBottomOf="@+id/email_label"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
+        android:text="@string/login_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
     <ImageView
         android:id="@+id/imageView"
