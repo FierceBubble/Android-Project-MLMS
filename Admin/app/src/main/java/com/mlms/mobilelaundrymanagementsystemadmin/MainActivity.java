@@ -1,5 +1,6 @@
 package com.mlms.mobilelaundrymanagementsystemadmin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mlms.mobilelaundrymanagementsystemadmin.databinding.ActivityMainBinding;
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         Log.i(TAG,"onStart");
+
+        // Check if the user logged in or have not logged out
+        FirebaseUser user=auth.getCurrentUser();
+        if(user==null){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 
     @Override

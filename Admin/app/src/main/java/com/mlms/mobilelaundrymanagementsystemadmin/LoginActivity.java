@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,55 +48,47 @@ public class LoginActivity extends AppCompatActivity {
         password_input=findViewById(R.id.password_input);
         login_btn=findViewById(R.id.login_btn);
 
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkFields(email_input.getText().toString(), password_input.getText().toString());
-            }
-        });
+        login_btn.setOnClickListener(v -> checkFields());
 
     }
 
-    public void checkFields(String email, String password){
-        if(email.equals("")||password.equals("")){
+    public void checkFields(){
+        String email=email_input.getText().toString();
+        String password=password_input.getText().toString();
+
+        if(TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
             Toast.makeText(LoginActivity.this, "Please fill in empty fields",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (password.length()<6){
+        }else if(TextUtils.isEmpty(email)){
+            email_input.requestFocus();
+        }else if(TextUtils.isEmpty(password)){
+            password_input.requestFocus();
+        }else if(password.length()<6){
             Toast.makeText(LoginActivity.this, "Password should be more than 6 characters",Toast.LENGTH_SHORT).show();
-            return;
+        }else{
+            // Continue to Authentication
+            authenticate(email, password);
         }
-        authenticate(email, password);
+
     }
 
     public void authenticate(String email, String password){
 
         auth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.i("Authentication", "Success");
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Log.w("Authentication", "Success");
+                        email_input.setText("");
+                        password_input.setText("");
+                        defineRole(Objects.requireNonNull(auth.getCurrentUser()).getUid());
+                    }else{
+                        Log.w("Authentication", "Failed",task.getException());
+                        Toast.makeText(LoginActivity.this,"Login failed: "+ Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
+                        email_input.requestFocus();
+                        password_input.requestFocus();
+                    }
+                });
 
-                }else{
-                    Log.w("Authentication", "Failed",task.getException());
-                    Toast.makeText(LoginActivity.this,"Account does not exist!",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        FirebaseUser user=auth.getCurrentUser();
-        if (user!=null) {
-            Log.i("Login", "Success");
-            // User is signed in
-            defineRole(user.getUid());
-        } else {
-            // No user is signed in
-            Log.i("Login", "Failed");
-        }
     }
-
-
 
     public void defineRole(String accountID){
 
@@ -111,10 +104,13 @@ public class LoginActivity extends AppCompatActivity {
                         Log.i("Role", role);
 
                         if(role.equals("admin")){
-                            Intent intent=new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
+
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                         }else if(role.equals("employee")){
+
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
                         }
                     }
 
@@ -124,8 +120,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-        email_input.setText("");
-        password_input.setText("");
     }
 
     @Override
@@ -133,16 +127,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         Log.i(TAG,"onStart");
     }
-
-    /**
-    private void reload(FirebaseUser currentUser){
-        FirebaseUser User=auth.getCurrentUser();
-        if(User!=null){
-            reload(User);
-        }
-        defineRole(currentUser.getUid());
-    }
-     **/
 
     @Override
     public void onStop() {
@@ -167,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG,"onDestroy");
-        auth.signOut();
     }
 
 }
