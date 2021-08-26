@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileLaundryManagementSystemAdmin"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -24,14 +25,19 @@
         </activity>
 
         <activity
-            android:name=".NewEmployeeActivity"
-            android:exported="true"
-            android:label="@string/NewEmployee_form" />
-
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"/>
+
+        <activity
+            android:name=".EmployeeActivity"
+            android:exported="true"
+            android:label="@string/app_name"/>
+
+        <activity
+            android:name=".NewEmployeeActivity"
+            android:exported="true"
+            android:label="@string/NewEmployee_form" />
 
     </application>
 

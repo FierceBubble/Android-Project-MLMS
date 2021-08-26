@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-// import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -18,9 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mlms.mobilelaundrymanagementsystemadmin.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class EmployeeActivity extends AppCompatActivity {
 
-    private static final String TAG ="MainActivity";
+    private static final String TAG ="EmployeeActivity";
     FirebaseAuth auth;
     FirebaseDatabase database;
     FirebaseFirestore firestore;
@@ -43,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_history, R.id.navigation_employeelist)
                 .build();
 
-        // Old version of fragment NavControl
-        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-
         NavHostFragment navHostFragment=(NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
         assert navHostFragment != null;
         NavController navController=navHostFragment.getNavController();
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // Check if the user logged in or have not logged out
         FirebaseUser user=auth.getCurrentUser();
         if(user==null){
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startActivity(new Intent(EmployeeActivity.this, LoginActivity.class));
         }
     }
 

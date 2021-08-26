@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">MLMS Admin</string>
+    <string name="app_name">MLMS Admin &amp; Employee</string>
+
+    <!-- Strings for MainActivity -->
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_listofemployee">List of Employee</string>
@@ -17,4 +19,6 @@
     <string name="password_label">Password:</string>
     <string name="password_input_placeholder">Enter your password</string>
     <string name="login_btn">Login</string>
+
+    <!-- Strings for EmployeeActivity -->
 </resources>
