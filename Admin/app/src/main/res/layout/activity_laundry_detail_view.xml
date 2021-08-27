@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LaundryDetailViewActivity">
+
+    <ImageButton
+        android:id="@+id/back_btn"
+        style="@android:style/Widget.ImageButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_arrow_circle_left_24"
+        android:contentDescription="@string/back_btn_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/billID_detail_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/billID_placeholder"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/back_btn"
+        app:layout_constraintStart_toEndOf="@+id/back_btn"
+        app:layout_constraintTop_toTopOf="@+id/back_btn" />
+
+    <TextView
+        android:id="@+id/pic_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/pic_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back_btn" />
+
+    <TextView
+        android:id="@+id/customerName_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/customerName_placeholder"
+        app:layout_constraintStart_toStartOf="@+id/pic_label"
+        app:layout_constraintTop_toBottomOf="@+id/pic_label" />
+
+    <TextView
+        android:id="@+id/DoS_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/update_date_placeholder"
+        app:layout_constraintStart_toStartOf="@+id/pic_label"
+        app:layout_constraintTop_toBottomOf="@+id/customerName_label" />
+
+    <TextView
+        android:id="@+id/DoLU_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update_date_placeholder"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/DoS_label"
+        app:layout_constraintEnd_toEndOf="@+id/status_label" />
+
+    <TextView
+        android:id="@+id/status_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/status_placeholder"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/DoLU_label"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listofItem_Rec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DoS_label" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listofItem_qty_Rec"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/totalWeight_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listofItem_Rec"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/totalWeight_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/totalWeight_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/totalPrice_label"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/totalPrice_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/totalPrice_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/update_btn"
+        app:layout_constraintStart_toStartOf="@+id/totalWeight_label" />
+
+    <Button
+        android:id="@+id/update_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/update_btn_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

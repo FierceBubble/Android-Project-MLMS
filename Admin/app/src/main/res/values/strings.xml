@@ -21,4 +21,18 @@
     <string name="login_btn">Login</string>
 
     <!-- Strings for EmployeeActivity -->
+
+    <!-- Strings for Active Laundry List CardView -->
+    <string name="billID_placeholder">20210218001</string>
+    <string name="update_date_placeholder">Last update:\n18–02–2021 14:42 PM</string>
+    <string name="status_placeholder">Status: Mulai</string>
+    <string name="info_btn_label">Info</string>
+
+    <!-- Strings for LaundryDetailView -->
+    <string name="laundrydetailview_title">Detail view</string>
+    <string name="pic_placeholder">Grace</string>
+    <string name="customerName_placeholder">John Doe</string>
+    <string name="totalWeight_placeholder">10kg</string>
+    <string name="totalPrice_placeholder">Rp50,000.00</string>
+    <string name="update_btn_label">Update</string>
 </resources>
