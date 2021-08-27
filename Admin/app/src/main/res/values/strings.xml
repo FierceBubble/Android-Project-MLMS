@@ -5,20 +5,27 @@
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_listofemployee">List of Employee</string>
-    <string name="listofEmployee_btn">List of Employee</string>
-    <string name="history_btn">History</string>
+
+    <!-- Strings for HomeFragment -->
+    <string name="open_bill_label">Buka bill baru</string>
+
+    <!-- Strings for OpenNewBillActivity -->
+    <string name="confirm_btn_label">Confirm</string>
+
+    <!-- Strings for EmployeeListFragment -->
     <string name="NewEmployee_btn">Add new employee</string>
-    <string name="NewEmployee_form">Create new employee</string>
-    <string name="login_form">Login</string>
+
+    <!-- Strings for NewEmpployeeActivity-->
+    <string name="NewEmployee_form">Create New Employee</string>
     <string name="back_btn_description">Back</string>
 
     <!-- Strings for Login form -->
     <string name="app_logo">logo</string>
     <string name="email_label">Email:</string>
-    <string name="email_input_placeholder">Enter your email</string>
     <string name="password_label">Password:</string>
-    <string name="password_input_placeholder">Enter your password</string>
     <string name="login_btn">Login</string>
+    <string name="email_input_placeholder">Enter your Email</string>
+    <string name="password_input_placeholder">Enter your Password</string>
 
     <!-- Strings for EmployeeActivity -->
 

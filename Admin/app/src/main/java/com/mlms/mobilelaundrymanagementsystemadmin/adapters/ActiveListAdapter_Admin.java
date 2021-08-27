@@ -42,7 +42,7 @@ public class ActiveListAdapter_Admin extends RecyclerView.Adapter<ActiveListAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        String LUD="Last updated:\n"+laundryModelList.get(position).getStatus_date()+" "+laundryModelList.get(position).getStatus_time();
+        String LUD="Last updated:\n"+laundryModelList.get(position).getStatus_date()+"\n"+laundryModelList.get(position).getStatus_time();
         String Status="Status: "+laundryModelList.get(position).getStatus();
         // Display list in CardView
         holder.billID.setText(laundryModelList.get(position).getBillID());

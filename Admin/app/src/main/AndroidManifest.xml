@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileLaundryManagementSystemAdmin"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".OpenNewBillActivity"
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -38,7 +40,7 @@
         <activity
             android:name=".LaundryDetailViewActivity"
             android:exported="true"
-            android:label="@string/laundrydetailview_title"/>
+            android:label="@string/laundrydetailview_title" />
     </application>
 
 </manifest>
