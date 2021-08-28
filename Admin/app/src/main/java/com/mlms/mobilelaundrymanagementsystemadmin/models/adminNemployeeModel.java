@@ -2,11 +2,11 @@ package com.mlms.mobilelaundrymanagementsystemadmin.models;
 
 public class adminNemployeeModel {
     String name, password, address, email, role,
-            dob, gender, status, doJ, phone, NIK;
+            dob, gender, status, doJ, phone, NIK, cabang;
 
     public adminNemployeeModel(){}
 
-    public adminNemployeeModel(String name, String password, String address, String email, String role, String dob, String gender, String status, String doJ, String phone, String NIK) {
+    public adminNemployeeModel(String name, String password, String address, String email, String role, String dob, String gender, String status, String doJ, String phone, String NIK, String cabang) {
         this.name = name;
         this.password = password;
         this.address = address;
@@ -18,6 +18,7 @@ public class adminNemployeeModel {
         this.doJ = doJ;
         this.phone = phone;
         this.NIK = NIK;
+        this.cabang=cabang;
     }
 
     public String getName() {
@@ -104,5 +105,13 @@ public class adminNemployeeModel {
 
     public void setNIK(String NIK) {
         this.NIK = NIK;
+    }
+
+    public String getCabang() {
+        return cabang;
+    }
+
+    public void setCabang(String cabang) {
+        this.cabang = cabang;
     }
 }

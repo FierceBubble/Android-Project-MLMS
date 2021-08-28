@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText email_input;
     EditText password_input;
     Button login_btn;
-    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +99,10 @@ public class LoginActivity extends AppCompatActivity {
                         adminNemployeeModel adminNemployeeModel=snapshot.getValue(adminNemployeeModel.class);
                         assert adminNemployeeModel != null;
 
-                        role=adminNemployeeModel.getRole();
+                        String role=adminNemployeeModel.getRole();
+                        String cabang=adminNemployeeModel.getCabang();
                         Log.w("Role", role);
+                        Log.w("Cabang", cabang);
 
                         if(role.equals("admin")){
 

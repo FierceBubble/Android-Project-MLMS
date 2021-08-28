@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         pullToRefresh.setOnRefreshListener(() -> {
             pullToRefresh.setRefreshing(false);
             Log.i(TAG,"onRefresh");
+            listAllActiveStatus();
         });
 
 
@@ -96,8 +97,8 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
 
-        database.collection(currentYear.format(calendar.getTime())).document(currentMonth.format(calendar.getTime()))
-                .collection(currentDay.format(calendar.getTime()))
+        database.collection(currentYear.format(calendar.getTime())).document("February")
+                .collection("18")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")
