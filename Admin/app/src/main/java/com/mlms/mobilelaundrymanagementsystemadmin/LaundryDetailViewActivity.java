@@ -25,6 +25,7 @@ import com.mlms.mobilelaundrymanagementsystemadmin.models.LaundryModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.ListOfItemsModel;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,12 +34,9 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
 
     private static final String TAG ="LaundryDetailViewActivity";
     ImageButton back_btn;
-    TextView billID, pic, customerName, DoS, DoLU, status, totalWeight, totalPrice, paymentMethod, additionalItem_label;
-    RecyclerView listOfItems_Rec, listOfItems_qty_Rec;
+    TextView billID, pic, customerName, DoS, DoLU, status, totalWeight, totalPrice, paymentMethod, additional_item_label;
+    RecyclerView listOfItem_qty_Rec;
     Button update_btn;
-
-    List<ListOfItemsModel> listOfItemsModelsList;
-    ListOfItemsAdapter listOfItemsAdapter;
 
     List<ListOfItemsModel> listOfItemsModelsList_qty;
     ListOfItemsAdapter listOfItemsAdapter_qty;
@@ -65,10 +63,9 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
         totalPrice=findViewById(R.id.totalPrice_label);
         totalWeight=findViewById(R.id.totalWeight_label);
         paymentMethod=findViewById(R.id.paymentMethod);
-        additionalItem_label=findViewById(R.id.additional_item_label);
+        additional_item_label=findViewById(R.id.additional_item_label);
 
-        listOfItems_Rec=findViewById(R.id.listofItem_Rec);
-        listOfItems_qty_Rec=findViewById(R.id.listofItem_qty_Rec);
+        listOfItem_qty_Rec=findViewById(R.id.listofItem_qty_Rec);
 
         update_btn=findViewById(R.id.update_btn);
 
@@ -104,68 +101,57 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
             totalWeight.setText(weight);
             paymentMethod.setText(laundryModel.getPaymentMethod());
 
-            showListOfItems(laundryModel.getBillID());
-            showLidtOfAdditionalItems(laundryModel.getBillID());
+            String billID=laundryModel.getBillID();
+
+            showListOfAdditionalItems(billID);
+
         }
 
         Log.i(TAG,"onCreate");
     }
 
-    public void showListOfItems(String billID){
-        listOfItems_Rec.setLayoutManager(new LinearLayoutManager(LaundryDetailViewActivity.this, RecyclerView.VERTICAL,false));
-        listOfItemsModelsList=new ArrayList<>();
-        listOfItemsAdapter=new ListOfItemsAdapter(listOfItemsModelsList);
-        listOfItems_Rec.setAdapter(listOfItemsAdapter);
+    public void showListOfAdditionalItems(String billID){
 
-        database.collection("2021")
-                .document("February")
-                .collection("18")
-                .document(billID)
-                .collection("listofItems")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
-                                ListOfItemsModel listOfItemsModel=document.toObject(ListOfItemsModel.class);
-                                listOfItemsModelsList.add(listOfItemsModel);
-                                listOfItemsAdapter.notifyDataSetChanged();
-                            }
-                        }else{
-                            Toast.makeText(LaundryDetailViewActivity.this,"Error"+task.getException(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentYear=new SimpleDateFormat("yy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
 
-    public void showLidtOfAdditionalItems(String billID){
-
-        listOfItems_qty_Rec.setLayoutManager(new LinearLayoutManager(LaundryDetailViewActivity.this, RecyclerView.VERTICAL,false));
+        listOfItem_qty_Rec.setLayoutManager(new LinearLayoutManager(LaundryDetailViewActivity.this, RecyclerView.VERTICAL,false));
         listOfItemsModelsList_qty=new ArrayList<>();
         listOfItemsAdapter_qty=new ListOfItemsAdapter(listOfItemsModelsList_qty);
-        listOfItems_qty_Rec.setAdapter(listOfItemsAdapter_qty);
+        listOfItem_qty_Rec.setAdapter(listOfItemsAdapter_qty);
 
-        database.collection("2021")
-                .document("February")
-                .collection("18")
-                .document(billID)
-                .collection("additional_listofItems")
+        String cabangCode = Character.toString(billID.charAt(0))+ billID.charAt(1) + billID.charAt(2);
+        String yearCode = Character.toString(billID.charAt(3))+ billID.charAt(4);
+        String monthCode = Character.toString(billID.charAt(5))+ billID.charAt(6);
+        String dayCode = Character.toString(billID.charAt(7))+ billID.charAt(8);
+        String billCode = Character.toString(billID.charAt(9))+ billID.charAt(10) + billID.charAt(11) + billID.charAt(12);
+
+        database.collection("Yearly Book")
+                .document(cabangCode)
+                .collection(yearCode)
+                .document(monthCode)
+                .collection(dayCode)
+                .document(billCode)
+                .collection("additionalItems")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-
-                            additionalItem_label.setVisibility(View.VISIBLE);
-                            listOfItems_qty_Rec.setVisibility(View.VISIBLE);
+                            int count=0;
 
                             for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
                                 ListOfItemsModel listOfItemsModel=document.toObject(ListOfItemsModel.class);
                                 listOfItemsModelsList_qty.add(listOfItemsModel);
                                 listOfItemsAdapter_qty.notifyDataSetChanged();
+                                count++;
+                            }
+
+                            if(count>0){
+                                additional_item_label.setVisibility(View.VISIBLE);
+                                listOfItem_qty_Rec.setVisibility(View.VISIBLE);
                             }
                         }else{
                             Toast.makeText(LaundryDetailViewActivity.this,"Error"+task.getException(),Toast.LENGTH_SHORT).show();

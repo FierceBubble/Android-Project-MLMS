@@ -80,7 +80,9 @@ public class OpenNewBillActivity extends AppCompatActivity {
                         String cabang=adminNemployeeModel.getCabang();
                         Log.w("Cabang", cabang);
 
-                        defineBillNo(cabang);
+                        String employeeName= adminNemployeeModel.getName();
+
+                        defineBillNo(cabang, employeeName);
 
                     }
                     @Override
@@ -90,12 +92,12 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 });
     }
 
-    public void defineBillNo(String cabangID){
+    public void defineBillNo(String cabangID, String employeeName){
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentYear=new SimpleDateFormat("yy");
 
-        fireStore.collection(cabangID)
-                .document(currentYear.format(calendar.getTime()))
+        fireStore.collection("Yearly Book")
+                .document(cabangID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -103,10 +105,10 @@ public class OpenNewBillActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             DocumentSnapshot document = task.getResult();
                             assert document != null;
-                            if(document.get("countBill")!=null){
+                            if(document.get("countBill_"+currentYear.format(calendar.getTime()))!=null){
                                 Log.i("LOGGER","Count: "+document.get("countBill"));
 
-                                int countBill=((Long) Objects.requireNonNull(document.get("countBill"))).intValue();
+                                int countBill=((Long) Objects.requireNonNull(document.get("countBill_"+currentYear.format(calendar.getTime())))).intValue();
 
                                 Toast.makeText(OpenNewBillActivity.this, "Bill number: "+countBill,Toast.LENGTH_SHORT).show();
 
@@ -114,12 +116,12 @@ public class OpenNewBillActivity extends AppCompatActivity {
                                 Toast.makeText(OpenNewBillActivity.this, "Bill number: "+countBill,Toast.LENGTH_SHORT).show();
 
                                 HashMap<String, Object> updateBillCount=new HashMap<>();
-                                updateBillCount.put("countBill", countBill);
-                                fireStore.collection(cabangID)
-                                        .document(currentYear.format(calendar.getTime()))
+                                updateBillCount.put("countBill_"+currentYear.format(calendar.getTime()), countBill);
+                                fireStore.collection("Yearly Book")
+                                        .document(cabangID)
                                         .set(updateBillCount);
 
-                                OpenBill(cabangID,countBill);
+                                OpenBill(cabangID,countBill, employeeName);
 
                             }else{
                                 Log.d("LOGGER", "No such document");
@@ -127,14 +129,13 @@ public class OpenNewBillActivity extends AppCompatActivity {
                                 int countBill=1;
 
                                 HashMap<String, Object> updateBillCount=new HashMap<>();
-                                updateBillCount.put("countBill", countBill);
+                                updateBillCount.put("countBill_"+currentYear.format(calendar.getTime()), countBill);
 
-                                fireStore.collection(cabangID)
-                                        .document(currentYear.format(calendar.getTime()))
+                                fireStore.collection("Yearly Book")
+                                        .document(cabangID)
                                         .set(updateBillCount);
 
-                                OpenBill(cabangID,countBill);
-
+                                OpenBill(cabangID,countBill, employeeName);
                             }
 
                         }else{
@@ -144,7 +145,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 });
     }
 
-    public void OpenBill(String cabangID, int BillNo){
+    public void OpenBill(String cabangID, int BillNo, String employeeName){
 
         Calendar calendar=Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate=new SimpleDateFormat("dd-MM-yyyy");
@@ -175,6 +176,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
         cartMap.put("billID", billNumber);
         cartMap.put("customerName", customerName);
         cartMap.put("employeeID", employeeID);
+        cartMap.put("employeeName", employeeName);
         cartMap.put("paymentMethod", paymentMethod);
         cartMap.put("start_date", start_date);
         cartMap.put("start_time", start_time);
@@ -187,12 +189,12 @@ public class OpenNewBillActivity extends AppCompatActivity {
         cartMap.put("total_qty", total_qty);
 
 
-        fireStore.collection(cabangID)
-                .document(currentYear.format(calendar.getTime()))
-                .collection(currentMonth.format(calendar.getTime()))
-                .document(currentDay.format(calendar.getTime()))
-                .collection(lastDig)
-                .document(billNumber)
+        fireStore.collection("Yearly Book")
+                .document(cabangID)
+                .collection(currentYear.format(calendar.getTime()))
+                .document(currentMonth.format(calendar.getTime()))
+                .collection(currentDay.format(calendar.getTime()))
+                .document(lastDig)
                 .set(cartMap);
 
         Toast.makeText(this, "Bill created!", Toast.LENGTH_SHORT).show();

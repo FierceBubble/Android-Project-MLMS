@@ -7,16 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -101,18 +96,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         String role=adminNemployeeModel.getRole();
                         String cabang=adminNemployeeModel.getCabang();
+                        String name=adminNemployeeModel.getName();
                         Log.w("Role", role);
                         Log.w("Cabang", cabang);
 
-                        if(role.equals("admin")){
-
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-                        }else if(role.equals("employee")){
-
-                            Toast.makeText(LoginActivity.this,"Employee logged in!",Toast.LENGTH_SHORT).show();
-
-                        }
+                        Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("role",role);
+                        intent.putExtra("cabang",cabang);
+                        intent.putExtra("name",name);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -127,6 +119,13 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         Log.i(TAG,"onStart");
+
+        /**
+         * if(auth!=null){
+         *             Log.i(TAG,"Welcome back "+ Objects.requireNonNull(auth.getCurrentUser()).getUid()+"!");
+         *             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+         *         }
+         */
     }
 
     @Override

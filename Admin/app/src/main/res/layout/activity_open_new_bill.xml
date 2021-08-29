@@ -12,11 +12,11 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/back_btn_description"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_arrow_circle_left_24"
-        android:contentDescription="@string/back_btn_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -4,16 +4,17 @@ import java.io.Serializable;
 
 public class LaundryModel implements Serializable {
 
-    String billID, customerName, employeeID, paymentMethod, status, start_date, start_time, status_date, status_time;
+    String billID, customerName, employeeID, paymentMethod, status, start_date, start_time, status_date, status_time, employeeName;
     Double totalPrice, totalWeight;
-    int total_additional_qty;
+    int total_additional_qty, total_qty;
 
     public LaundryModel(){ }
 
-    public LaundryModel(String billID, String customerName, String employeeID, String paymentMethod, String status, String start_date, String start_time, String status_date, String status_time, Double totalPrice, Double totalWeight, int total_additional_qty) {
+    public LaundryModel(String billID, String customerName, String employeeID, String employeeName, String paymentMethod, String status, String start_date, String start_time, String status_date, String status_time, Double totalPrice, Double totalWeight, int total_additional_qty, int total_qty) {
         this.billID=billID;
         this.customerName = customerName;
         this.employeeID = employeeID;
+        this.employeeName=employeeName;
         this.paymentMethod = paymentMethod;
         this.status = status;
         this.start_date = start_date;
@@ -23,6 +24,7 @@ public class LaundryModel implements Serializable {
         this.totalPrice = totalPrice;
         this.totalWeight = totalWeight;
         this.total_additional_qty = total_additional_qty;
+        this.total_qty=total_qty;
     }
 
     public String getBillID() {
@@ -47,6 +49,14 @@ public class LaundryModel implements Serializable {
 
     public void setEmployeeID(String employeeID) {
         this.employeeID = employeeID;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public String getPaymentMethod() {
@@ -119,5 +129,13 @@ public class LaundryModel implements Serializable {
 
     public void setTotal_additional_qty(int total_additional_qty) {
         this.total_additional_qty = total_additional_qty;
+    }
+
+    public int getTotal_qty() {
+        return total_qty;
+    }
+
+    public void setTotal_qty(int total_qty) {
+        this.total_qty = total_qty;
     }
 }
