@@ -9,9 +9,6 @@
     <!-- Strings for HomeFragment -->
     <string name="open_bill_label">Buka bill baru</string>
 
-    <!-- Strings for OpenNewBillActivity -->
-    <string name="confirm_btn_label">Confirm</string>
-
     <!-- Strings for EmployeeListFragment -->
     <string name="NewEmployee_btn">Add new employee</string>
 
@@ -39,6 +36,7 @@
     <string name="laundrydetailview_title">Detail view</string>
     <string name="pic_placeholder">Grace</string>
     <string name="customerName_placeholder">John Doe</string>
+    <string name="customerPhone_placeholder">12345</string>
     <string name="totalWeight_placeholder">Total Weight: 10kg</string>
     <string name="paymentMethod_placeholder">Payment Method:\nGrabPay</string>
     <string name="totalPrice_placeholder">Total: Rp50,000.00</string>
@@ -46,4 +44,22 @@
     <string name="update_btn_label">Update</string>
     <string name="item_name">Name</string>
     <string name="item_qty">xqty</string>
+
+    <!-- Strings for OpenNewBillActivity -->
+    <string name="confirm_btn_label">Confirm</string>
+    <string name="customerName_tv">Customer Name:</string>
+    <string name="phoneNumber_tv">Phone Number:</string>
+    <string name="totalWeight_tv">Total Weight:</string>
+    <string name="totalQuantity_tv">Total quantity:</string>
+    <string name="additional_item_button">Additional Item Button</string>
+    <string name="additional_item_tv">Additional Item</string>
+    <string name="item_type_tv">Item Type</string>
+    <string name="item_qty_tv">Item Qty</string>
+    <string name="total_price_tv">Total Price:</string>
+    <string name="totalPrice_placeholder_tv">Rp0,000.00</string>
+    <string name="name_hint">Name</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="qty_hint">Qty</string>
+    <string name="weight_hint">Weight</string>
+
 </resources>

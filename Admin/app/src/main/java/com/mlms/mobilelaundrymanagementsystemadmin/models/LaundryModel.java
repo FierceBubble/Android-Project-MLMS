@@ -6,11 +6,11 @@ public class LaundryModel implements Serializable {
 
     String billID, customerName, employeeID, paymentMethod, status, start_date, start_time, status_date, status_time, employeeName;
     Double totalPrice, totalWeight;
-    int total_additional_qty, total_qty;
+    int total_additional_qty, total_qty, customerPhone;
 
     public LaundryModel(){ }
 
-    public LaundryModel(String billID, String customerName, String employeeID, String employeeName, String paymentMethod, String status, String start_date, String start_time, String status_date, String status_time, Double totalPrice, Double totalWeight, int total_additional_qty, int total_qty) {
+    public LaundryModel(String billID, String customerName, String employeeID, String employeeName, String paymentMethod, String status, String start_date, String start_time, String status_date, String status_time, Double totalPrice, Double totalWeight, int total_additional_qty, int total_qty, int customerPhone) {
         this.billID=billID;
         this.customerName = customerName;
         this.employeeID = employeeID;
@@ -25,6 +25,7 @@ public class LaundryModel implements Serializable {
         this.totalWeight = totalWeight;
         this.total_additional_qty = total_additional_qty;
         this.total_qty=total_qty;
+        this.customerPhone=customerPhone;
     }
 
     public String getBillID() {
@@ -137,5 +138,13 @@ public class LaundryModel implements Serializable {
 
     public void setTotal_qty(int total_qty) {
         this.total_qty = total_qty;
+    }
+
+    public int getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(int customerPhone) {
+        this.customerPhone = customerPhone;
     }
 }

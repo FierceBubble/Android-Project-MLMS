@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:labelFor="@id/email_input"
         android:text="@string/email_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -22,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:labelFor="@id/password_input"
         android:text="@string/password_label"
         app:layout_constraintStart_toStartOf="@+id/email_label"
         app:layout_constraintTop_toBottomOf="@+id/email_input" />
@@ -34,12 +32,13 @@
         android:layout_marginTop="8dp"
         android:autofillHints="@string/email_input_placeholder"
         android:ems="10"
+        android:hint="@string/email_input_placeholder"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/password_input"
         app:layout_constraintStart_toStartOf="@+id/email_label"
         app:layout_constraintTop_toBottomOf="@+id/email_label"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
 
     <EditText
         android:id="@+id/password_input"
@@ -48,12 +47,13 @@
         android:layout_marginTop="8dp"
         android:autofillHints="@string/password_input_placeholder"
         android:ems="10"
+        android:hint="@string/password_input_placeholder"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/login_btn"
         app:layout_constraintStart_toStartOf="@+id/password_label"
         app:layout_constraintTop_toBottomOf="@+id/password_label"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
 
     <Button
         android:id="@+id/login_btn"

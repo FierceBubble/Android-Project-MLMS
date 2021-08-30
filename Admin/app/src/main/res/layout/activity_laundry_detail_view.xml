@@ -52,6 +52,16 @@
         app:layout_constraintTop_toBottomOf="@+id/pic_label" />
 
     <TextView
+        android:id="@+id/customerPhone_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/customerPhone_placeholder"
+        app:layout_constraintBottom_toBottomOf="@+id/customerName_label"
+        app:layout_constraintStart_toEndOf="@+id/customerName_label"
+        app:layout_constraintTop_toTopOf="@+id/customerName_label" />
+
+    <TextView
         android:id="@+id/DoS_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,5 +152,6 @@
         android:text="@string/update_btn_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

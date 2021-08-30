@@ -34,7 +34,7 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
 
     private static final String TAG ="LaundryDetailViewActivity";
     ImageButton back_btn;
-    TextView billID, pic, customerName, DoS, DoLU, status, totalWeight, totalPrice, paymentMethod, additional_item_label;
+    TextView billID, pic, customerName, DoS, DoLU, status, totalWeight, totalPrice, paymentMethod, additional_item_label, customerPhone;
     RecyclerView listOfItem_qty_Rec;
     Button update_btn;
 
@@ -57,6 +57,7 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
         billID=findViewById(R.id.billID_detail_label);
         pic=findViewById(R.id.pic_label);
         customerName=findViewById(R.id.customerName_label);
+        customerPhone=findViewById(R.id.customerPhone_label);
         DoS=findViewById(R.id.DoS_label);
         DoLU=findViewById(R.id.DoLU_label);
         status=findViewById(R.id.status_label);
@@ -91,9 +92,12 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
             DecimalFormat priceFormatter = new DecimalFormat("#0,000.00");
             String price="Rp"+priceFormatter.format(laundryModel.getTotalPrice());
 
+            String customerNo=String.valueOf(laundryModel.getCustomerPhone());
+
             billID.setText(laundryModel.getBillID());
             pic.setText(laundryModel.getEmployeeID());
             customerName.setText(laundryModel.getCustomerName());
+            customerPhone.setText(customerNo);
             DoS.setText(SD);
             DoLU.setText(LUD);
             status.setText(Status);

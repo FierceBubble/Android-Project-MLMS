@@ -177,7 +177,6 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
                             }
                             for(CabangListModel list: cabangListModelList){
                                 String cabangL=list.getCabangName();
-                                Log.i("Cabang list", cabangL);
                                 listAllActiveStatus(cabangL);
                             }
                         }else{
