@@ -2,6 +2,8 @@ package com.mlms.mobilelaundrymanagementsystemadmin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,8 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +27,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.mlms.mobilelaundrymanagementsystemadmin.adapters.OpenNewBill_AdditionalItemsAdapter;
+import com.mlms.mobilelaundrymanagementsystemadmin.models.ListOfItemsModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.adminNemployeeModel;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class OpenNewBillActivity extends AppCompatActivity {
@@ -46,9 +50,9 @@ public class OpenNewBillActivity extends AppCompatActivity {
     Button confirm_btn;
     ImageButton back_btn, additionalItem_btn;
 
-    Spinner item_type_spinner;
-
-    LinearLayout add_item_layout;
+    RecyclerView additional_item_Rec;
+    List<ListOfItemsModel> listOfItemsModelList=new ArrayList<>();
+    OpenNewBill_AdditionalItemsAdapter additionalItemsAdapter;
 
     Calendar calendar;
 
@@ -65,24 +69,20 @@ public class OpenNewBillActivity extends AppCompatActivity {
         calendar=Calendar.getInstance();
 
 
-         customerName_input=findViewById(R.id.customerName_input);
-         customerPhoneNo_input=findViewById(R.id.customerPhone_input);
-         totalQty_input=findViewById(R.id.totalqty_input);
-         totalWeight_input=findViewById(R.id.totalWeight_input);
+        customerName_input=findViewById(R.id.customerName_input);
+        customerPhoneNo_input=findViewById(R.id.customerPhone_input);
+        totalQty_input=findViewById(R.id.totalqty_input);
+        totalWeight_input=findViewById(R.id.totalWeight_input);
 
-         totalPrice_tv=findViewById(R.id.totalPrice);
+        totalPrice_tv=findViewById(R.id.totalPrice);
 
 
         totalWeight_input.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -97,26 +97,20 @@ public class OpenNewBillActivity extends AppCompatActivity {
         });
 
 
+        additional_item_Rec=findViewById(R.id.additional_item_Rec);
 
-        //add_item_layout=findViewById(R.id.add_item);
+        additionalItem_btn=findViewById(R.id.addItem_btn);
+        additional_item_Rec.setLayoutManager(new LinearLayoutManager(OpenNewBillActivity.this, RecyclerView.VERTICAL,false));
 
-        //additionalItem_btn=findViewById(R.id.addItem_btn);
-
-        /**
-         * additionalItem_btn.setOnClickListener(new View.OnClickListener() {
-         *             @Override
-         *             public void onClick(View v) {
-         *                 if(add_item_layout.getVisibility()==View.INVISIBLE){
-         *                     add_item_layout.setVisibility(View.VISIBLE);
-         *                 }else{
-         *                     add_item_layout.setVisibility(View.INVISIBLE);
-         *                 }
-         *             }
-         *         });
-         */
-
-
-        //item_type_spinner=findViewById(R.id.item_type_spinner);
+        additionalItem_btn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View v) {
+                additionalItemsAdapter=new OpenNewBill_AdditionalItemsAdapter();
+                additional_item_Rec.setAdapter(additionalItemsAdapter);
+                additionalItemsAdapter.notifyDataSetChanged();
+            }
+        });
 
 
 
@@ -133,7 +127,6 @@ public class OpenNewBillActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                Log.d("Back button","Back button clicked!, returned to mainActivity");
             }
         });
     }

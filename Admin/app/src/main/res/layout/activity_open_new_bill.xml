@@ -34,10 +34,11 @@
         android:id="@+id/customerName_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:labelFor="@id/customerName_input"
         android:text="@string/customerName_tv"
-        app:layout_constraintStart_toStartOf="@+id/back_btn"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn" />
 
     <EditText
@@ -46,21 +47,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:autofillHints="Name"
-        android:ems="8"
-        android:hint="@string/name_hint"
+        android:ems="6"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/customerName_tv"
         app:layout_constraintTop_toBottomOf="@+id/customerName_tv"
-        tools:ignore="TextContrastCheck" />
+        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/customerPhone_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:labelFor="@id/customerPhone_input"
         android:text="@string/phoneNumber_tv"
-        app:layout_constraintStart_toEndOf="@+id/customerName_input"
+        app:layout_constraintStart_toStartOf="@+id/customerPhone_input"
         app:layout_constraintTop_toTopOf="@+id/customerName_tv" />
 
     <EditText
@@ -68,14 +68,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:autofillHints="Name"
-        android:ems="8"
-        android:hint="@string/phone_number_hint"
+        android:ems="6"
         android:inputType="phone"
         android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/customerPhone_tv"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customerPhone_tv"
-        tools:ignore="TextContrastCheck" />
+        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/totalQTY_tv"
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:autofillHints="Qty"
-        android:ems="5"
+        android:ems="3"
         android:hint="@string/qty_hint"
         android:inputType="number"
         android:minHeight="48dp"
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/totalWeight_tv"
-        app:layout_constraintStart_toEndOf="@+id/totalqty_input"
+        app:layout_constraintStart_toEndOf="@+id/totalQTY_tv"
         app:layout_constraintTop_toTopOf="@+id/totalQTY_tv" />
 
     <EditText
@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:autofillHints="Weight"
-        android:ems="5"
+        android:ems="4"
         android:hint="@string/weight_hint"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
@@ -127,21 +127,56 @@
         android:id="@+id/totalPrice_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="@string/total_price_tv"
-        app:layout_constraintStart_toEndOf="@+id/totalWeight_input"
+        app:layout_constraintEnd_toEndOf="@+id/totalPrice"
         app:layout_constraintTop_toTopOf="@+id/totalWeight_tv" />
 
     <TextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:text="@string/totalPrice_placeholder_tv"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/totalWeight_input"
-        app:layout_constraintStart_toStartOf="@+id/totalPrice_tv"
-        app:layout_constraintTop_toTopOf="@+id/totalWeight_input" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/totalWeight_input"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <ImageButton
+        android:id="@+id/addItem_btn"
+        style="@android:style/Widget.ImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/additional_item_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_add_circle_outline_24"
+        app:layout_constraintStart_toStartOf="@+id/totalqty_input"
+        app:layout_constraintTop_toBottomOf="@+id/totalqty_input"
+        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/additional_item_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/addItem_btn"
+        app:layout_constraintStart_toEndOf="@+id/addItem_btn"
+        app:layout_constraintTop_toTopOf="@+id/addItem_btn" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/additional_item_Rec"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirm_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addItem_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

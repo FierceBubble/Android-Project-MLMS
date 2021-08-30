@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mlms.mobilelaundrymanagementsystemadmin">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,34 +14,52 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileLaundryManagementSystemAdmin"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".OpenNewBillActivity"
-            android:exported="true" />
+
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".EmployeeActivity"
             android:exported="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+
         <activity
             android:name=".NewEmployeeActivity"
             android:exported="true"
-            android:label="@string/NewEmployee_form" />
+            android:label="@string/NewEmployee_form"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+
         <activity
             android:name=".LaundryDetailViewActivity"
             android:exported="true"
-            android:label="@string/laundrydetailview_title" />
+            android:label="@string/laundrydetailview_title"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+
+        <activity
+            android:name=".OpenNewBillActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
     </application>
 
 </manifest>
