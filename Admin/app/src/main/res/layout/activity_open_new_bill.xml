@@ -1,187 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".OpenNewBillActivity">
+    android:layout_height="wrap_content">
 
-    <ImageButton
-        android:id="@+id/back_btn"
-        style="@android:style/Widget.ImageButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/back_btn_description"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_arrow_circle_left_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/customerName_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:labelFor="@id/customerName_input"
-        android:text="@string/customerName_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_btn" />
-
-    <EditText
-        android:id="@+id/customerName_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:autofillHints="Name"
-        android:ems="6"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/customerName_tv"
-        app:layout_constraintTop_toBottomOf="@+id/customerName_tv"
-        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
-
-    <TextView
-        android:id="@+id/customerPhone_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:labelFor="@id/customerPhone_input"
-        android:text="@string/phoneNumber_tv"
-        app:layout_constraintStart_toStartOf="@+id/customerPhone_input"
-        app:layout_constraintTop_toTopOf="@+id/customerName_tv" />
-
-    <EditText
-        android:id="@+id/customerPhone_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints="Name"
-        android:ems="6"
-        android:inputType="phone"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customerPhone_tv"
-        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
-
-    <TextView
-        android:id="@+id/totalQTY_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/totalQuantity_tv"
-        app:layout_constraintStart_toStartOf="@+id/customerName_input"
-        app:layout_constraintTop_toBottomOf="@+id/customerName_input" />
-
-    <EditText
-        android:id="@+id/totalqty_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:autofillHints="Qty"
-        android:ems="3"
-        android:hint="@string/qty_hint"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/totalQTY_tv"
-        app:layout_constraintTop_toBottomOf="@+id/totalQTY_tv"
-        tools:ignore="TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/totalWeight_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/totalWeight_tv"
-        app:layout_constraintStart_toEndOf="@+id/totalQTY_tv"
-        app:layout_constraintTop_toTopOf="@+id/totalQTY_tv" />
-
-    <EditText
-        android:id="@+id/totalWeight_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:autofillHints="Weight"
-        android:ems="4"
-        android:hint="@string/weight_hint"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/totalWeight_tv"
-        app:layout_constraintTop_toBottomOf="@+id/totalWeight_tv"
-        tools:ignore="TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/totalPrice_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_price_tv"
-        app:layout_constraintEnd_toEndOf="@+id/totalPrice"
-        app:layout_constraintTop_toTopOf="@+id/totalWeight_tv" />
-
-    <TextView
-        android:id="@+id/totalPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="@string/totalPrice_placeholder_tv"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/totalWeight_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/totalWeight_input"
-        app:layout_constraintVertical_bias="0.538" />
-
-    <ImageButton
-        android:id="@+id/addItem_btn"
-        style="@android:style/Widget.ImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/additional_item_button"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_add_circle_outline_24"
-        app:layout_constraintStart_toStartOf="@+id/totalqty_input"
-        app:layout_constraintTop_toBottomOf="@+id/totalqty_input"
-        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/additional_item_tv"
-        app:layout_constraintBottom_toBottomOf="@+id/addItem_btn"
-        app:layout_constraintStart_toEndOf="@+id/addItem_btn"
-        app:layout_constraintTop_toTopOf="@+id/addItem_btn" />
-
-
-    <LinearLayout
-        android:id="@+id/addItem_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addItem_btn"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:context=".OpenNewBillActivity">
 
-    <Button
-        android:id="@+id/confirm_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/confirm_btn_label"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:id="@+id/back_btn"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_btn_description"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_baseline_arrow_circle_left_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/customerName_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:labelFor="@id/customerName_input"
+            android:text="@string/customerName_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back_btn" />
+
+        <EditText
+            android:id="@+id/customerName_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="Name"
+            android:ems="6"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintStart_toStartOf="@+id/customerName_tv"
+            app:layout_constraintTop_toBottomOf="@+id/customerName_tv"
+            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+        <TextView
+            android:id="@+id/customerPhone_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/customerPhone_input"
+            android:text="@string/phoneNumber_tv"
+            app:layout_constraintStart_toStartOf="@+id/customerPhone_input"
+            app:layout_constraintTop_toTopOf="@+id/customerName_tv" />
+
+        <EditText
+            android:id="@+id/customerPhone_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:autofillHints="Name"
+            android:ems="6"
+            android:inputType="phone"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customerPhone_tv"
+            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+        <TextView
+            android:id="@+id/totalQTY_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/totalQuantity_tv"
+            app:layout_constraintStart_toStartOf="@+id/customerName_input"
+            app:layout_constraintTop_toBottomOf="@+id/customerName_input" />
+
+        <EditText
+            android:id="@+id/totalqty_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="Qty"
+            android:ems="3"
+            android:hint="@string/qty_hint"
+            android:inputType="number"
+            android:minHeight="48dp"
+            app:layout_constraintStart_toStartOf="@+id/totalQTY_tv"
+            app:layout_constraintTop_toBottomOf="@+id/totalQTY_tv"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/totalWeight_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/totalWeight_tv"
+            app:layout_constraintStart_toEndOf="@+id/totalQTY_tv"
+            app:layout_constraintTop_toTopOf="@+id/totalQTY_tv" />
+
+        <EditText
+            android:id="@+id/totalWeight_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="Weight"
+            android:ems="4"
+            android:hint="@string/weight_hint"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            app:layout_constraintStart_toStartOf="@+id/totalWeight_tv"
+            app:layout_constraintTop_toBottomOf="@+id/totalWeight_tv"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/totalPrice_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_price_tv"
+            app:layout_constraintEnd_toEndOf="@+id/totalPrice"
+            app:layout_constraintTop_toTopOf="@+id/totalWeight_tv" />
+
+        <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="@string/totalPrice_placeholder_tv"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/totalWeight_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/totalWeight_input"
+            app:layout_constraintVertical_bias="0.538" />
+
+        <ImageButton
+            android:id="@+id/addItem_btn"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/additional_item_button"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_baseline_add_circle_outline_24"
+            app:layout_constraintStart_toStartOf="@+id/totalqty_input"
+            app:layout_constraintTop_toBottomOf="@+id/totalqty_input"
+            tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/additional_item_tv"
+            app:layout_constraintBottom_toBottomOf="@+id/addItem_btn"
+            app:layout_constraintStart_toEndOf="@+id/addItem_btn"
+            app:layout_constraintTop_toTopOf="@+id/addItem_btn" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/addItem_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addItem_btn" />
+
+        <Button
+            android:id="@+id/confirm_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/confirm_btn_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addItem_layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
+
