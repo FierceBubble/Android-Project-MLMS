@@ -2,8 +2,7 @@ package com.mlms.mobilelaundrymanagementsystemadmin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,9 +11,14 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.mlms.mobilelaundrymanagementsystemadmin.adapters.OpenNewBill_AdditionalItemsAdapter;
-import com.mlms.mobilelaundrymanagementsystemadmin.models.ListOfItemsModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.adminNemployeeModel;
 
 import java.text.DecimalFormat;
@@ -50,9 +52,8 @@ public class OpenNewBillActivity extends AppCompatActivity {
     Button confirm_btn;
     ImageButton back_btn, additionalItem_btn;
 
-    RecyclerView additional_item_Rec;
-    List<ListOfItemsModel> listOfItemsModelList=new ArrayList<>();
-    OpenNewBill_AdditionalItemsAdapter additionalItemsAdapter;
+    LinearLayout addItem_layout;
+    List<String> item_types_list=new ArrayList<>();
 
     Calendar calendar;
 
@@ -97,18 +98,21 @@ public class OpenNewBillActivity extends AppCompatActivity {
         });
 
 
-        additional_item_Rec=findViewById(R.id.additional_item_Rec);
 
         additionalItem_btn=findViewById(R.id.addItem_btn);
-        additional_item_Rec.setLayoutManager(new LinearLayoutManager(OpenNewBillActivity.this, RecyclerView.VERTICAL,false));
+        addItem_layout=findViewById(R.id.addItem_layout);
+        item_types_list.add("Jacket");
+        item_types_list.add("Spre");
+        item_types_list.add("Bantal");
+        item_types_list.add("Selimut");
+        item_types_list.add("Gorden");
+        item_types_list.add("Other");
 
         additionalItem_btn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View v) {
-                additionalItemsAdapter=new OpenNewBill_AdditionalItemsAdapter();
-                additional_item_Rec.setAdapter(additionalItemsAdapter);
-                additionalItemsAdapter.notifyDataSetChanged();
+                addItem();
             }
         });
 
@@ -129,6 +133,53 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void addItem(){
+
+        @SuppressLint("InflateParams") final View itemView =getLayoutInflater().inflate(R.layout.row_opennewbill_additionalitems,null,false);
+
+        EditText item_qty= itemView.findViewById(R.id.additional_qty);
+        EditText item_other= itemView.findViewById(R.id.additional_other_input);
+        TextView item_price=itemView.findViewById(R.id.additional_price);
+        AppCompatSpinner item_type=itemView.findViewById(R.id.item_type_spinner);
+        ImageView cancel_btn=itemView.findViewById(R.id.additional_item_cancel_btn);
+
+        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, item_types_list);
+        item_type.setAdapter(arrayAdapter);
+
+        item_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object choice=String.valueOf(parent.getItemAtPosition(position));
+
+                if(choice=="Other"){
+                    item_other.setVisibility(View.VISIBLE);
+                }else{
+                    item_other.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeView(itemView);
+            }
+        });
+
+        addItem_layout.addView(itemView);
+    }
+
+    public void removeView(View view){
+
+        addItem_layout.removeView(view);
+
     }
 
 
