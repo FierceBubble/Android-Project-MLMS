@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.mlms.mobilelaundrymanagementsystemadmin.models.ListOfItemsModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.adminNemployeeModel;
 
 import java.text.DecimalFormat;
@@ -52,9 +56,15 @@ public class OpenNewBillActivity extends AppCompatActivity {
     TextView totalPrice_tv;
     Button confirm_btn;
     ImageButton back_btn, additionalItem_btn;
+    AppCompatSpinner paymentMethod_spinner;
 
     LinearLayout addItem_layout;
-    List<String> item_types_list=new ArrayList<>();
+    List<String> item_name_list=new ArrayList<>();
+    List<Double> item_price_list=new ArrayList<>();
+    Double total_price_per_item;
+    Double total_price_per_item_final;
+    List<String> payment_method_list=new ArrayList<>();
+    ArrayList<ListOfItemsModel> listOfItemsModelArrayList=new ArrayList<>();
 
     Calendar calendar;
 
@@ -67,9 +77,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         fireStore=FirebaseFirestore.getInstance();
         db=FirebaseDatabase.getInstance();
-
         calendar=Calendar.getInstance();
-
 
         customerName_input=findViewById(R.id.customerName_input);
         customerPhoneNo_input=findViewById(R.id.customerPhone_input);
@@ -77,7 +85,6 @@ public class OpenNewBillActivity extends AppCompatActivity {
         totalWeight_input=findViewById(R.id.totalWeight_input);
 
         totalPrice_tv=findViewById(R.id.totalPrice);
-
 
         totalWeight_input.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,17 +105,13 @@ public class OpenNewBillActivity extends AppCompatActivity {
             }
         });
 
+        paymentMethod_spinner=findViewById(R.id.paymentMethodSpinner);
+
+        defineSpinnerChoice();
 
 
         additionalItem_btn=findViewById(R.id.addItem_btn);
         addItem_layout=findViewById(R.id.addItem_layout);
-        item_types_list.add("Jacket");
-        item_types_list.add("Spre");
-        item_types_list.add("Bantal");
-        item_types_list.add("Selimut");
-        item_types_list.add("Gorden");
-        item_types_list.add("Other");
-
         additionalItem_btn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -116,7 +119,6 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 addItem();
             }
         });
-
 
 
         confirm_btn=findViewById(R.id.confirm_btn);
@@ -136,34 +138,156 @@ public class OpenNewBillActivity extends AppCompatActivity {
         });
     }
 
+    public void defineSpinnerChoice(){
+
+        payment_method_list.add("Choose Payment");
+        payment_method_list.add("Cash");
+        payment_method_list.add("Grab");
+        payment_method_list.add("GoPay");
+        payment_method_list.add("Ovo");
+
+        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, payment_method_list);
+        paymentMethod_spinner.setAdapter(arrayAdapter);
+
+
+        db.getReference().child("loginAdminNEmployee").child(Objects.requireNonNull(auth.getCurrentUser()).getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        adminNemployeeModel adminNemployeeModel=snapshot.getValue(adminNemployeeModel.class);
+                        assert adminNemployeeModel != null;
+
+                        String cabang=adminNemployeeModel.getCabang();
+
+                        fireStore.collection("Cabang Information")
+                                .document(cabang)
+                                .collection("Daftar Harga")
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            item_name_list.add("Choose Item");
+                                            item_price_list.add(0.00);
+                                            for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+                                                ListOfItemsModel listOfItemsModel=document.toObject(ListOfItemsModel.class);
+                                                item_name_list.add(listOfItemsModel.getItem_name());
+                                                item_price_list.add(listOfItemsModel.getItem_price());
+                                            }
+                                            item_name_list.add("Other");
+                                            item_price_list.add(0.00);
+                                            Toast.makeText(OpenNewBillActivity.this,"Total list String: "+item_name_list.size(),Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(OpenNewBillActivity.this,"Error"+task.getException(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
+
     public void addItem(){
 
         @SuppressLint("InflateParams") final View itemView =getLayoutInflater().inflate(R.layout.row_opennewbill_additionalitems,null,false);
 
-        EditText item_qty= itemView.findViewById(R.id.additional_qty);
-        EditText item_other= itemView.findViewById(R.id.additional_other_input);
-        TextView item_price=itemView.findViewById(R.id.additional_price);
-        AppCompatSpinner item_type=itemView.findViewById(R.id.item_type_spinner);
-        ImageView cancel_btn=itemView.findViewById(R.id.additional_item_cancel_btn);
+        EditText item_qty = itemView.findViewById(R.id.additional_qty);
+        EditText item_other = itemView.findViewById(R.id.additional_other_input);
+        EditText item_other_price = itemView.findViewById(R.id.additional_other_price_input);
+        TextView item_price = itemView.findViewById(R.id.additional_price);
+        AppCompatSpinner item_type = itemView.findViewById(R.id.item_type_spinner);
+        ImageView cancel_btn = itemView.findViewById(R.id.additional_item_cancel_btn);
 
-        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, item_types_list);
+        DecimalFormat priceFormatter = new DecimalFormat("#0,000.00");
+
+
+        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, item_name_list);
         item_type.setAdapter(arrayAdapter);
 
         item_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                item_qty.restoreDefaultFocus();
+                item_qty.getText().clear();
+                item_other.getText().clear();
+                item_other_price.getText().clear();
+
                 Object choice=String.valueOf(parent.getItemAtPosition(position));
+                item_price.setText("Rp"+priceFormatter.format(item_price_list.get(position)));
+                total_price_per_item=item_price_list.get(position);
 
                 if(choice=="Other"){
                     item_other.setVisibility(View.VISIBLE);
+                    item_other_price.setVisibility(View.VISIBLE);
+
+                    item_other_price.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                            if(!TextUtils.isEmpty(item_other_price.getText())){
+                                total_price_per_item=Double.parseDouble(item_other_price.getText().toString());
+                                item_price.setText("Rp" + priceFormatter.format(total_price_per_item));
+                            }else{
+                                total_price_per_item=0.0;
+                                item_price.setText("Rp" + priceFormatter.format(0));
+                            }
+
+                        }
+                    });
+
                 }else{
                     item_other.setVisibility(View.INVISIBLE);
+                    item_other_price.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        item_qty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(!TextUtils.isEmpty(item_qty.getText())){
+                    Double total_price_per_qty=total_price_per_item*Integer.parseInt(item_qty.getText().toString());
+                    item_price.setText("Rp" + priceFormatter.format(total_price_per_qty));
+                    total_price_per_item_final=total_price_per_qty;
+                }else{
+                    item_price.setText("Rp" + priceFormatter.format(total_price_per_item));
+                    total_price_per_item_final=total_price_per_item;
+                }
             }
         });
 
@@ -227,10 +351,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
 
                                 int countBill=((Long) Objects.requireNonNull(document.get("countBill_"+currentYear.format(calendar.getTime())))).intValue();
 
-                                Toast.makeText(OpenNewBillActivity.this, "Bill number: "+countBill,Toast.LENGTH_SHORT).show();
-
                                 countBill++;
-                                Toast.makeText(OpenNewBillActivity.this, "Bill number: "+countBill,Toast.LENGTH_SHORT).show();
 
                                 HashMap<String, Object> updateBillCount=new HashMap<>();
                                 updateBillCount.put("countBill_"+currentYear.format(calendar.getTime()), countBill);
@@ -276,11 +397,11 @@ public class OpenNewBillActivity extends AppCompatActivity {
         @SuppressLint("DefaultLocale") String lastDig = String.format("%04d", BillNo);
         String billNumber = cabangID+billNumGenDate.format(calendar.getTime()) + lastDig;
         String customerName = "John Doe#3";
-        String employeeID = "whS9n4tJBWb2VikpmSpT0Y9AMQj2";
+        String employeeID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
         String paymentMethod = "GrabPay";
         String start_date = currentDate.format(calendar.getTime());
         String start_time = currentTime.format(calendar.getTime());
-        String status = "Mulai";
+        String status = "Baru";
         String status_date = currentDate.format(calendar.getTime());
         String status_time = currentTime.format(calendar.getTime());
         Double totalWeight = 20.0;
@@ -316,8 +437,100 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 .document(lastDig)
                 .set(cartMap);
 
+        fireStore.collection("Cabang Information")
+                .document(cabangID)
+                .collection("Active List")
+                .document(billNumber)
+                .set(cartMap);
+
+
+        isAdditionalItemAdded();
+
+        if(listOfItemsModelArrayList.size()!=0){
+            add_additionalItems(cabangID, BillNo, billNumber);
+        }
+
+
         Toast.makeText(this, "Bill created!", Toast.LENGTH_SHORT).show();
 
         finish();
     }
+
+    public void isAdditionalItemAdded(){
+
+        listOfItemsModelArrayList.clear();
+
+        for(int i=0; i<addItem_layout.getChildCount();i++){
+
+            View itemView=addItem_layout.getChildAt(i);
+
+            EditText item_qty= itemView.findViewById(R.id.additional_qty);
+            EditText item_other= itemView.findViewById(R.id.additional_other_input);
+            EditText item_other_price = itemView.findViewById(R.id.additional_other_price_input);
+            AppCompatSpinner item_type=itemView.findViewById(R.id.item_type_spinner);
+
+            ListOfItemsModel listOfItemsModel=new ListOfItemsModel();
+
+            if(!item_qty.getText().toString().equals("") && item_type.getSelectedItem()!="Other" && item_type.getSelectedItemPosition()!=0){
+                int item_qty_total=Integer.parseInt(item_qty.getText().toString());
+
+                listOfItemsModel.setItem_name(item_name_list.get(item_type.getSelectedItemPosition()));
+                listOfItemsModel.setItem_qty(item_qty_total) ;
+                listOfItemsModel.setItem_price(total_price_per_item_final);
+
+                listOfItemsModelArrayList.add(listOfItemsModel);
+
+            }else if(item_type.getSelectedItem()=="Other" && !item_qty.getText().toString().equals("") && !item_other.getText().toString().equals("") && !item_other_price.getText().toString().equals("")){
+                int item_qty_total=Integer.parseInt(item_qty.getText().toString());
+
+                listOfItemsModel.setItem_name(item_other.getText().toString());
+                listOfItemsModel.setItem_qty(item_qty_total);
+                listOfItemsModel.setItem_price(total_price_per_item_final);
+
+                listOfItemsModelArrayList.add(listOfItemsModel);
+            } else {
+                Toast.makeText(this,"Please fill empty fields!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        Toast.makeText(this,"Additional List Size: "+listOfItemsModelArrayList.size(),Toast.LENGTH_SHORT).show();
+    }
+
+    public void add_additionalItems(String cabangID, int BillNo, String billNumber){
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentYear=new SimpleDateFormat("yy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
+        @SuppressLint("DefaultLocale") String lastDig = String.format("%04d", BillNo);
+
+        for(ListOfItemsModel list: listOfItemsModelArrayList){
+
+            HashMap<String, Object> cartMap = new HashMap<>();
+            cartMap.put("item_name",list.getItem_name());
+            cartMap.put("item_qty",list.getItem_qty());
+            cartMap.put("item_price", list.getItem_price());
+
+            fireStore.collection("Yearly Book")
+                    .document(cabangID)
+                    .collection(currentYear.format(calendar.getTime()))
+                    .document(currentMonth.format(calendar.getTime()))
+                    .collection(currentDay.format(calendar.getTime()))
+                    .document(lastDig)
+                    .collection("Additional Items")
+                    .document(list.getItem_name())
+                    .set(cartMap);
+
+            fireStore.collection("Cabang Information")
+                    .document(cabangID)
+                    .collection("Active List")
+                    .document(billNumber)
+                    .collection("Additional Items")
+                    .document(list.getItem_name())
+                    .set(cartMap);
+
+        }
+
+    }
+
 }

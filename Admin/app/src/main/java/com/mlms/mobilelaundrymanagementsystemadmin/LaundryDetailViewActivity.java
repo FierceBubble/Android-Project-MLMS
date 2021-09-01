@@ -137,7 +137,7 @@ public class LaundryDetailViewActivity extends AppCompatActivity {
                 .document(monthCode)
                 .collection(dayCode)
                 .document(billCode)
-                .collection("additionalItems")
+                .collection("Additional Items")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @SuppressLint("NotifyDataSetChanged")

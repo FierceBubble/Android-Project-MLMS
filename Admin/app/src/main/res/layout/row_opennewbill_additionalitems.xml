@@ -87,6 +87,22 @@
         app:layout_constraintEnd_toEndOf="@+id/additional_qty"
         app:layout_constraintTop_toTopOf="@+id/additional_other_input" />
 
+    <EditText
+        android:id="@+id/additional_other_price_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:autofillHints="0"
+        android:background="@drawable/round_grey"
+        android:hint="@string/other_price_placeholder"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/additional_other_input"
+        app:layout_constraintStart_toStartOf="@+id/additional_other_input"
+        app:layout_constraintTop_toBottomOf="@+id/additional_other_input" />
+
 
 
 

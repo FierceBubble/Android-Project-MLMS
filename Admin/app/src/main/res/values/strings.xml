@@ -63,5 +63,7 @@
     <string name="weight_hint">Weight</string>
     <string name="additional_cancel_placeholder">Additional cancel</string>
     <string name="additional_other_placeholder">Other</string>
+    <string name="payment_method_label">Payment Method:</string>
+    <string name="other_price_placeholder">Rp0,000.00</string>
 
 </resources>

@@ -138,6 +138,35 @@
             app:layout_constraintTop_toTopOf="@+id/totalWeight_input"
             app:layout_constraintVertical_bias="0.538" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/payment_method_label"
+            app:layout_constraintStart_toStartOf="@+id/totalqty_input"
+            app:layout_constraintTop_toBottomOf="@+id/totalqty_input" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/round_grey"
+            app:layout_constraintEnd_toEndOf="@+id/totalWeight_input"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/paymentMethodSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="81dp"
+                tools:layout_editor_absoluteY="293dp" />
+        </FrameLayout>
+
+
         <ImageButton
             android:id="@+id/addItem_btn"
             style="@android:style/Widget.ImageButton"
@@ -148,8 +177,8 @@
             android:contentDescription="@string/additional_item_button"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_add_circle_outline_24"
-            app:layout_constraintStart_toStartOf="@+id/totalqty_input"
-            app:layout_constraintTop_toBottomOf="@+id/totalqty_input"
+            app:layout_constraintStart_toStartOf="@+id/frameLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
             tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
         <TextView
@@ -185,6 +214,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addItem_layout" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
