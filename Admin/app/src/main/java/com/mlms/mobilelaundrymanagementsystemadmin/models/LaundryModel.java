@@ -1,16 +1,19 @@
 package com.mlms.mobilelaundrymanagementsystemadmin.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class LaundryModel implements Serializable {
 
     String billID, customerName, employeeID, paymentMethod, status, start_date, start_time, status_date, status_time, employeeName;
+    List<String> paket_choice;
     Double totalPrice, totalWeight;
     int total_additional_qty, total_qty, customerPhone;
 
     public LaundryModel(){ }
 
-    public LaundryModel(String billID, String customerName, String employeeID, String employeeName, String paymentMethod, String status, String start_date, String start_time, String status_date, String status_time, Double totalPrice, Double totalWeight, int total_additional_qty, int total_qty, int customerPhone) {
+    public LaundryModel(List<String> paket_choice, String billID, String customerName, String employeeID, String employeeName, String paymentMethod, String status, String start_date, String start_time, String status_date, String status_time, Double totalPrice, Double totalWeight, int total_additional_qty, int total_qty, int customerPhone) {
+        this.paket_choice=paket_choice;
         this.billID=billID;
         this.customerName = customerName;
         this.employeeID = employeeID;
@@ -26,6 +29,14 @@ public class LaundryModel implements Serializable {
         this.total_additional_qty = total_additional_qty;
         this.total_qty=total_qty;
         this.customerPhone=customerPhone;
+    }
+
+    public List<String> getPaket_choice() {
+        return paket_choice;
+    }
+
+    public void setPaket_choice(List<String> paket_choice) {
+        this.paket_choice = paket_choice;
     }
 
     public String getBillID() {

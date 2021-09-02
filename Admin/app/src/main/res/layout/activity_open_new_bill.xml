@@ -121,39 +121,97 @@
             android:id="@+id/totalPrice_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:text="@string/total_price_tv"
-            app:layout_constraintEnd_toEndOf="@+id/totalPrice"
-            app:layout_constraintTop_toTopOf="@+id/totalWeight_tv" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/total_price_additionalItem_tv"
+            app:layout_constraintTop_toBottomOf="@+id/total_price_additionalItem_tv" />
 
         <TextView
             android:id="@+id/totalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:text="@string/totalPrice_placeholder_tv"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/totalWeight_input"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/totalWeight_input"
-            app:layout_constraintVertical_bias="0.538" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/totalPrice_tv"
+            app:layout_constraintTop_toBottomOf="@+id/totalPrice_tv" />
+
+        <TextView
+            android:id="@+id/total_price_lot_tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/total_price_lot_tv_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/frameLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+
+        <TextView
+            android:id="@+id/total_price_lot_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/totalPrice_placeholder_tv"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/total_price_lot_tv_label"
+            app:layout_constraintTop_toBottomOf="@+id/total_price_lot_tv_label" />
+
+        <TextView
+            android:id="@+id/total_price_additionalItem_tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/total_price_additionalItem_tv_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/total_price_lot_tv"
+            app:layout_constraintTop_toBottomOf="@+id/total_price_lot_tv" />
+
+        <TextView
+            android:id="@+id/total_price_additionalItem_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/totalPrice_placeholder_tv"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/total_price_additionalItem_tv_label"
+            app:layout_constraintTop_toBottomOf="@+id/total_price_additionalItem_tv_label" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:text="@string/payment_method_label"
-            app:layout_constraintStart_toStartOf="@+id/totalqty_input"
-            app:layout_constraintTop_toBottomOf="@+id/totalqty_input" />
+            app:layout_constraintStart_toEndOf="@+id/totalWeight_tv"
+            app:layout_constraintTop_toTopOf="@+id/totalWeight_tv" />
 
         <FrameLayout
             android:id="@+id/frameLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/round_grey"
-            app:layout_constraintEnd_toEndOf="@+id/totalWeight_input"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView">
 
@@ -166,6 +224,16 @@
                 tools:layout_editor_absoluteY="293dp" />
         </FrameLayout>
 
+        <LinearLayout
+            android:id="@+id/paket_list_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:minHeight="180dp"
+            app:layout_constraintEnd_toEndOf="@+id/totalWeight_input"
+            app:layout_constraintStart_toStartOf="@+id/totalqty_input"
+            app:layout_constraintTop_toBottomOf="@+id/totalqty_input" />
 
         <ImageButton
             android:id="@+id/addItem_btn"
@@ -177,8 +245,8 @@
             android:contentDescription="@string/additional_item_button"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_add_circle_outline_24"
-            app:layout_constraintStart_toStartOf="@+id/frameLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
+            app:layout_constraintStart_toStartOf="@+id/paket_list_layout"
+            app:layout_constraintTop_toBottomOf="@+id/paket_list_layout"
             tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
         <TextView
@@ -192,6 +260,19 @@
             app:layout_constraintTop_toTopOf="@+id/addItem_btn" />
 
 
+        <Button
+            android:id="@+id/check_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="@string/check_btn_label"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/totalPrice"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.482" />
+
         <LinearLayout
             android:id="@+id/addItem_layout"
             android:layout_width="match_parent"
@@ -201,7 +282,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addItem_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/check_btn" />
 
         <Button
             android:id="@+id/confirm_btn"
@@ -210,6 +291,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="12dp"
             android:text="@string/confirm_btn_label"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

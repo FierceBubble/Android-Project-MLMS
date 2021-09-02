@@ -55,7 +55,7 @@
     <string name="additional_item_tv">Additional Item</string>
     <string name="item_type_tv">Item Type</string>
     <string name="item_qty_tv">Item Qty</string>
-    <string name="total_price_tv">Total Price:</string>
+    <string name="total_price_tv">Total Harga:</string>
     <string name="totalPrice_placeholder_tv">Rp0,000.00</string>
     <string name="name_hint">Name</string>
     <string name="phone_number_hint">Phone Number</string>
@@ -65,5 +65,8 @@
     <string name="additional_other_placeholder">Other</string>
     <string name="payment_method_label">Payment Method:</string>
     <string name="other_price_placeholder">Rp0,000.00</string>
+    <string name="total_price_lot_tv_label">Total Harga Lot:</string>
+    <string name="total_price_additionalItem_tv_label">Total Harga Tambahan:</string>
+    <string name="check_btn_label">Cek total Harga</string>
 
 </resources>

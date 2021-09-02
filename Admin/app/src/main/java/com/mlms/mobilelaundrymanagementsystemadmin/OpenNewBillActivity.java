@@ -3,7 +3,6 @@ package com.mlms.mobilelaundrymanagementsystemadmin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,12 +14,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +35,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.ListOfItemsModel;
+import com.mlms.mobilelaundrymanagementsystemadmin.models.ListOfPaketModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.adminNemployeeModel;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -52,17 +53,24 @@ public class OpenNewBillActivity extends AppCompatActivity {
     FirebaseFirestore fireStore;
     FirebaseDatabase db;
 
+    String cabang;
+    String employeeName;
+
     EditText customerName_input ,customerPhoneNo_input, totalWeight_input, totalQty_input;
-    TextView totalPrice_tv;
-    Button confirm_btn;
+    TextView totalPrice_tv, total_price_lot_tv, total_price_additionalItem_tv;
+    Button confirm_btn, check_btn;
     ImageButton back_btn, additionalItem_btn;
     AppCompatSpinner paymentMethod_spinner;
 
-    LinearLayout addItem_layout;
+    LinearLayout addItem_layout, paket_layout;
+    CheckBox[] paket_checkbox;
+    ArrayList<ListOfPaketModel> listOfPaketModelsArrayList=new ArrayList<>();
     List<String> item_name_list=new ArrayList<>();
     List<Double> item_price_list=new ArrayList<>();
     Double total_price_per_item;
-    Double total_price_per_item_final;
+    Double total_price_all_item=0.0; // Additional Item total price
+    Double total_price_lot=0.00; // Lot total price
+    Double total_price_all=0.00;
     List<String> payment_method_list=new ArrayList<>();
     ArrayList<ListOfItemsModel> listOfItemsModelArrayList=new ArrayList<>();
 
@@ -84,31 +92,13 @@ public class OpenNewBillActivity extends AppCompatActivity {
         totalQty_input=findViewById(R.id.totalqty_input);
         totalWeight_input=findViewById(R.id.totalWeight_input);
 
+        total_price_lot_tv=findViewById(R.id.total_price_lot_tv);
+        total_price_additionalItem_tv=findViewById(R.id.total_price_additionalItem_tv);
         totalPrice_tv=findViewById(R.id.totalPrice);
 
-        totalWeight_input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                DecimalFormat priceFormatter = new DecimalFormat("#0,000.00");
-                totalPrice_tv.setText("Rp" + priceFormatter.format(0));
-                if(!TextUtils.isEmpty(totalWeight_input.getText())) {
-                    double totalWeight = Double.parseDouble(String.valueOf(totalWeight_input.getText()));
-                    Double totalPrice = totalWeight * 2900;
-                    totalPrice_tv.setText("Rp" + priceFormatter.format(totalPrice));
-                }
-            }
-        });
-
-        paymentMethod_spinner=findViewById(R.id.paymentMethodSpinner);
-
+        paymentMethod_spinner = findViewById(R.id.paymentMethodSpinner);
+        paket_layout = findViewById(R.id.paket_list_layout);
         defineSpinnerChoice();
-
 
         additionalItem_btn=findViewById(R.id.addItem_btn);
         addItem_layout=findViewById(R.id.addItem_layout);
@@ -117,6 +107,44 @@ public class OpenNewBillActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addItem();
+            }
+        });
+
+        check_btn=findViewById(R.id.check_btn);
+        check_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DecimalFormat priceFormatter = new DecimalFormat("#0,000.00");
+                isAdditionalItemAdded();
+                confirm_btn.setVisibility(View.VISIBLE);
+
+                if(total_price_all_item==0.0){
+
+                    if(listOfItemsModelArrayList.size()!=0){
+
+                        for(ListOfItemsModel list: listOfItemsModelArrayList){
+                            total_price_all_item=total_price_all_item+list.getItem_price();
+                            total_price_additionalItem_tv.setText("Rp"+priceFormatter.format(total_price_all_item));
+                        }
+                        total_price_all=total_price_all+total_price_all_item;
+                        totalPrice_tv.setText("Rp" + priceFormatter.format(total_price_all));
+                    }
+                }else if(total_price_all_item!=0.0){
+                    total_price_all=total_price_all-total_price_all_item;
+                    totalPrice_tv.setText("Rp" + priceFormatter.format(total_price_all));
+                    total_price_all_item=0.0;
+                    total_price_additionalItem_tv.setText("Rp"+priceFormatter.format(total_price_all_item));
+
+                    if(listOfItemsModelArrayList.size()!=0){
+
+                        for(ListOfItemsModel list: listOfItemsModelArrayList){
+                            total_price_all_item=total_price_all_item+list.getItem_price();
+                            total_price_additionalItem_tv.setText("Rp"+priceFormatter.format(total_price_all_item));
+                        }
+                        total_price_all=total_price_all+total_price_all_item;
+                        totalPrice_tv.setText("Rp" + priceFormatter.format(total_price_all));
+                    }
+                }
             }
         });
 
@@ -138,14 +166,23 @@ public class OpenNewBillActivity extends AppCompatActivity {
         });
     }
 
+    public void checkAllfields(){
+
+
+
+
+    }
+
     public void defineSpinnerChoice(){
 
-        payment_method_list.add("Choose Payment");
+        //Payment Method choices
+        payment_method_list.add("Pilih");
         payment_method_list.add("Cash");
-        payment_method_list.add("Grab");
+        payment_method_list.add("ShopeePay");
         payment_method_list.add("GoPay");
         payment_method_list.add("Ovo");
 
+        //List of additional items
         ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, payment_method_list);
         paymentMethod_spinner.setAdapter(arrayAdapter);
 
@@ -168,7 +205,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if(task.isSuccessful()){
-                                            item_name_list.add("Choose Item");
+                                            item_name_list.add("Pilih");
                                             item_price_list.add(0.00);
                                             for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
                                                 ListOfItemsModel listOfItemsModel=document.toObject(ListOfItemsModel.class);
@@ -184,6 +221,32 @@ public class OpenNewBillActivity extends AppCompatActivity {
                                     }
                                 });
 
+                        fireStore.collection("Cabang Information")
+                                .document(cabang)
+                                .collection("Daftar Harga Paket Lot")
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if(task.isSuccessful()){
+
+                                            for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+                                                ListOfPaketModel listOfPaketModel=document.toObject(ListOfPaketModel.class);
+                                                listOfPaketModelsArrayList.add(listOfPaketModel);
+                                            }
+                                            paket_checkbox= new CheckBox[listOfPaketModelsArrayList.size()];
+                                            //List of paket choices
+                                            for(int i=0; i<listOfPaketModelsArrayList.size(); i++){
+                                                createPaketChoices(i);
+                                            }
+
+                                            Toast.makeText(OpenNewBillActivity.this,"Total list String: "+item_name_list.size(),Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(OpenNewBillActivity.this,"Error"+task.getException(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -191,7 +254,36 @@ public class OpenNewBillActivity extends AppCompatActivity {
                     }
                 });
 
+
     }
+
+
+    public void createPaketChoices(int index){
+
+        DecimalFormat priceFormatter = new DecimalFormat("#0,000.00");
+        paket_checkbox[index] = new CheckBox(this);
+        paket_checkbox[index].setId(index);
+        paket_checkbox[index].setText(listOfPaketModelsArrayList.get(index).getPaket_name());
+        paket_checkbox[index].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(paket_checkbox[index].isChecked()){
+                    total_price_lot=total_price_lot+listOfPaketModelsArrayList.get(index).getPaket_price();
+                    total_price_all=total_price_all+listOfPaketModelsArrayList.get(index).getPaket_price();
+                }else if (!paket_checkbox[index].isChecked()){
+                    total_price_lot=total_price_lot-listOfPaketModelsArrayList.get(index).getPaket_price();
+                    total_price_all=total_price_all-listOfPaketModelsArrayList.get(index).getPaket_price();
+                }
+                total_price_lot_tv.setText("Rp" + priceFormatter.format(total_price_lot));
+                totalPrice_tv.setText("Rp" + priceFormatter.format(total_price_all));
+            }
+        });
+        paket_layout.addView(paket_checkbox[index]);
+
+
+    }
+
 
     public void addItem(){
 
@@ -283,10 +375,8 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 if(!TextUtils.isEmpty(item_qty.getText())){
                     Double total_price_per_qty=total_price_per_item*Integer.parseInt(item_qty.getText().toString());
                     item_price.setText("Rp" + priceFormatter.format(total_price_per_qty));
-                    total_price_per_item_final=total_price_per_qty;
                 }else{
                     item_price.setText("Rp" + priceFormatter.format(total_price_per_item));
-                    total_price_per_item_final=total_price_per_item;
                 }
             }
         });
@@ -396,20 +486,30 @@ public class OpenNewBillActivity extends AppCompatActivity {
 
         @SuppressLint("DefaultLocale") String lastDig = String.format("%04d", BillNo);
         String billNumber = cabangID+billNumGenDate.format(calendar.getTime()) + lastDig;
-        String customerName = "John Doe#3";
+        String customerName = customerName_input.getText().toString() ;
         String employeeID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-        String paymentMethod = "GrabPay";
+        String paymentMethod = paymentMethod_spinner.getSelectedItem().toString();
         String start_date = currentDate.format(calendar.getTime());
         String start_time = currentTime.format(calendar.getTime());
         String status = "Baru";
         String status_date = currentDate.format(calendar.getTime());
         String status_time = currentTime.format(calendar.getTime());
-        Double totalWeight = 20.0;
-        Double totalPrice = 100000.00;
-        int total_qty=1;
-        int total_additional_qty = 1;
-        int customerPhone=1234567;
+        Double totalWeight = Double.parseDouble(totalWeight_input.getText().toString());
+        Double totalPrice = total_price_all;
+        int total_qty=Integer.parseInt(totalQty_input.getText().toString());
+        int total_additional_qty = listOfItemsModelArrayList.size();
+        int customerPhone=Integer.parseInt(customerPhoneNo_input.getText().toString());
 
+        String[] selected_paket=new String[listOfPaketModelsArrayList.size()];
+
+        int j=0;
+        for(int i=0; i<listOfPaketModelsArrayList.size();i++){
+            if(paket_checkbox[i].isChecked()){
+                String chosen=listOfPaketModelsArrayList.get(i).getPaket_name();
+                selected_paket[j]=chosen;
+                j++;
+            }
+        }
 
         HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("billID", billNumber);
@@ -422,6 +522,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
         cartMap.put("status", status);
         cartMap.put("status_date", status_date);
         cartMap.put("status_time", status_time);
+        cartMap.put("paket_choice", Arrays.asList(selected_paket));
         cartMap.put("totalPrice", totalPrice);
         cartMap.put("totalWeight", totalWeight);
         cartMap.put("total_additional_qty", total_additional_qty);
@@ -444,8 +545,6 @@ public class OpenNewBillActivity extends AppCompatActivity {
                 .set(cartMap);
 
 
-        isAdditionalItemAdded();
-
         if(listOfItemsModelArrayList.size()!=0){
             add_additionalItems(cabangID, BillNo, billNumber);
         }
@@ -467,6 +566,7 @@ public class OpenNewBillActivity extends AppCompatActivity {
             EditText item_qty= itemView.findViewById(R.id.additional_qty);
             EditText item_other= itemView.findViewById(R.id.additional_other_input);
             EditText item_other_price = itemView.findViewById(R.id.additional_other_price_input);
+            TextView item_price = itemView.findViewById(R.id.additional_price);
             AppCompatSpinner item_type=itemView.findViewById(R.id.item_type_spinner);
 
             ListOfItemsModel listOfItemsModel=new ListOfItemsModel();
@@ -474,18 +574,26 @@ public class OpenNewBillActivity extends AppCompatActivity {
             if(!item_qty.getText().toString().equals("") && item_type.getSelectedItem()!="Other" && item_type.getSelectedItemPosition()!=0){
                 int item_qty_total=Integer.parseInt(item_qty.getText().toString());
 
+                String price=item_price.getText().toString();
+                String remove_last_three=price.substring(0,price.length()-3);
+                String remove_coma=remove_last_three.replace(",","");
+
                 listOfItemsModel.setItem_name(item_name_list.get(item_type.getSelectedItemPosition()));
                 listOfItemsModel.setItem_qty(item_qty_total) ;
-                listOfItemsModel.setItem_price(total_price_per_item_final);
+                listOfItemsModel.setItem_price(Double.parseDouble(remove_coma.replace("Rp","")));
 
                 listOfItemsModelArrayList.add(listOfItemsModel);
 
             }else if(item_type.getSelectedItem()=="Other" && !item_qty.getText().toString().equals("") && !item_other.getText().toString().equals("") && !item_other_price.getText().toString().equals("")){
                 int item_qty_total=Integer.parseInt(item_qty.getText().toString());
 
+                String price=item_price.getText().toString();
+                String remove_last_three=price.substring(0,price.length()-3);
+                String remove_coma=remove_last_three.replace(",","");
+
                 listOfItemsModel.setItem_name(item_other.getText().toString());
                 listOfItemsModel.setItem_qty(item_qty_total);
-                listOfItemsModel.setItem_price(total_price_per_item_final);
+                listOfItemsModel.setItem_price(Double.parseDouble(remove_coma.replace("Rp","")));
 
                 listOfItemsModelArrayList.add(listOfItemsModel);
             } else {
