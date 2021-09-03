@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MLMS Admin &amp; Employee</string>
+    <string name="app_name">OkeWash Admin &amp; Employee</string>
 
     <!-- Strings for MainActivity -->
     <string name="title_home">Home</string>
