@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,9 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.mlms.mobilelaundrymanagementsystemadmin.LoginActivity;
-import com.mlms.mobilelaundrymanagementsystemadmin.MainActivity;
 import com.mlms.mobilelaundrymanagementsystemadmin.OpenNewBillActivity;
 import com.mlms.mobilelaundrymanagementsystemadmin.R;
 import com.mlms.mobilelaundrymanagementsystemadmin.adapters.ActiveListAdapter_Admin;
@@ -36,7 +31,6 @@ import com.mlms.mobilelaundrymanagementsystemadmin.models.CabangListModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.LaundryModel;
 import com.mlms.mobilelaundrymanagementsystemadmin.models.adminNemployeeModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -77,12 +71,9 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         defineRole();
 
         OpenNewBill_btn=root.findViewById(R.id.open_bill);
-        OpenNewBill_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), OpenNewBillActivity.class);
-                startActivity(intent);
-            }
+        OpenNewBill_btn.setOnClickListener(v -> {
+            Intent intent=new Intent(getActivity(), OpenNewBillActivity.class);
+            startActivity(intent);
         });
 
         pullToRefresh=root.findViewById(R.id.RefreshHomePage);
@@ -115,6 +106,7 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
 
                         if(role.equals("Admin")){
                             listAllActiveStatus_admin();
+                            OpenNewBill_btn.setVisibility(View.GONE);
                         }else if(role.equals("Employee")){
                             listAllActiveStatus_employee(cabang);
                         }
@@ -128,6 +120,7 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void listAllActiveStatus_employee(String cabang){
         // Initiate RecycleView
         recView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false ));
@@ -135,29 +128,21 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         activeListAdapter_admin= new ActiveListAdapter_Admin(getActivity(),laundryModelList,this );
         recView.setAdapter(activeListAdapter_admin);
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentYear=new SimpleDateFormat("yy");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
-
         fireStore.collection("Cabang Information")
                 .document(cabang)
                 .collection("Active List")
                 .whereNotEqualTo("status","Sudah diambil")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
-                        LaundryModel laundryModel=document.toObject(LaundryModel.class);
-                        laundryModelList.add(laundryModel);
-                        activeListAdapter_admin.notifyDataSetChanged();
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+                            LaundryModel laundryModel=document.toObject(LaundryModel.class);
+                            laundryModelList.add(laundryModel);
+                            activeListAdapter_admin.notifyDataSetChanged();
+                        }
+                    }else{
+                        Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                });
 
     }
 
@@ -166,26 +151,24 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
 
         fireStore.collection("Cabang Information")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
-                                CabangListModel cabangListModel=document.toObject(CabangListModel.class);
-                                cabangListModelList.add(cabangListModel);
-                            }
-                            for(CabangListModel list: cabangListModelList){
-                                String cabangL=list.getCabangName();
-                                listAllActiveStatus(cabangL);
-                            }
-                        }else{
-                            Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+                            CabangListModel cabangListModel=document.toObject(CabangListModel.class);
+                            cabangListModelList.add(cabangListModel);
                         }
+                        for(CabangListModel list: cabangListModelList){
+                            String cabangL=list.getCabangName();
+                            listAllActiveStatus(cabangL);
+                        }
+                    }else{
+                        Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void listAllActiveStatus(String cabangName){
 
         // Initiate RecycleView
@@ -194,30 +177,22 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         activeListAdapter_admin= new ActiveListAdapter_Admin(getActivity(),laundryModelList,this );
         recView.setAdapter(activeListAdapter_admin);
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentYear=new SimpleDateFormat("yy");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
-
         fireStore.collection("Cabang Information")
                 .document(cabangName)
                 .collection("Active List")
                 .whereNotEqualTo("status","Sudah diambil")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
-                        LaundryModel laundryModel=document.toObject(LaundryModel.class);
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+                            LaundryModel laundryModel=document.toObject(LaundryModel.class);
 
-                        laundryModelList.add(laundryModel);
-                        activeListAdapter_admin.notifyDataSetChanged();
+                            laundryModelList.add(laundryModel);
+                            activeListAdapter_admin.notifyDataSetChanged();
+                        }
+                    }else{
+                        Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                });
 
     }
 
