@@ -44,6 +44,9 @@
     <string name="update_btn_label">Update</string>
     <string name="item_name">Name</string>
     <string name="item_qty">xqty</string>
+    <string name="pic_id_label">osjnrbsobr</string>
+    <string name="paket_choice_label">Pilihan paket:</string>
+    <string name="total_qty_label">Total Qty: 0</string>
 
     <!-- Strings for OpenNewBillActivity -->
     <string name="confirm_btn_label">Confirm</string>

@@ -139,11 +139,10 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
 
-        fireStore.collection("Yearly Book")
+        fireStore.collection("Cabang Information")
                 .document(cabang)
-                .collection(currentYear.format(calendar.getTime()))
-                .document(currentMonth.format(calendar.getTime()))
-                .collection(currentDay.format(calendar.getTime()))
+                .collection("Active List")
+                .whereNotEqualTo("status","Sudah diambil")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -199,11 +198,10 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentMonth=new SimpleDateFormat("MM");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDay=new SimpleDateFormat("dd");
 
-        fireStore.collection("Yearly Book")
+        fireStore.collection("Cabang Information")
                 .document(cabangName)
-                .collection(currentYear.format(calendar.getTime()))
-                .document(currentMonth.format(calendar.getTime()))
-                .collection(currentDay.format(calendar.getTime()))
+                .collection("Active List")
+                .whereNotEqualTo("status","Sudah diambil")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -211,13 +209,9 @@ public class HomeFragment extends Fragment implements ActiveListAdapter_Admin.On
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
                         LaundryModel laundryModel=document.toObject(LaundryModel.class);
-                        String status=laundryModel.getStatus();
 
-                        //filter all non "Sudah diambil"
-                        if(!status.equals("Sudah diambil")){
-                            laundryModelList.add(laundryModel);
-                            activeListAdapter_admin.notifyDataSetChanged();
-                        }
+                        laundryModelList.add(laundryModel);
+                        activeListAdapter_admin.notifyDataSetChanged();
                     }
                 }else{
                     Toast.makeText(getActivity(),"Error"+task.getException(),Toast.LENGTH_SHORT).show();
